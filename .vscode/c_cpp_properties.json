@@ -1,0 +1,18 @@
+{
+  "configurations": [
+    {
+      "name": "Linux",
+      "includePath": [
+        "${workspaceFolder}/include",
+        "/home/tym/emsdk/upstream/emscripten/cache/sysroot/include",
+        "/home/tym/emsdk/upstream/emscripten/system/include"
+      ],
+      "defines": [],
+      "compilerPath": "/home/tym/emsdk/upstream/emscripten/em++",
+      "cStandard": "gnu17",
+      "cppStandard": "gnu++17",
+      "intelliSenseMode": "linux-clang-x64"
+    }
+  ],
+  "version": 4
+}
