@@ -10,7 +10,8 @@ Laser::Laser(Player *player)
     : Actor(player->GetPosX(), player->GetPosY(), player->GetOri(),
             ASPECT_RATIO * HEIGHT * world->GetDimMin(),
             HEIGHT * world->GetDimMin()),
-      TranslateAble(this, TRANS_SPEED, player->GetOri()),
+      TranslateAble(this, TRANS_SPEED * world->GetDimMin(), player->GetOri()),
+      // TODO: TRANS_SPEED * world->GetDimMin() could be stored for efficiency.
       ViewAble(this->Actor::pos, this->Actor::ori, this->Actor::dim,
                IMAGE_FILENAME)
 {

@@ -89,7 +89,7 @@ namespace Game::Config
 
       float const
           TRANS_SPEED =
-              0.5f;
+              0.0006f;
       // Given in model units (% of world's min dim) per millisecond.
     }
 
@@ -127,7 +127,7 @@ namespace Game::Config
 
       float const
           MAX_TRANS_SPEED =
-              0.45f;
+              0.0004f;
       // Given in model units (% of world's min dim) per millisecond.
 
       float const
@@ -147,12 +147,12 @@ namespace Game::Config
 
       float const
           TRANS_ACC =
-              0.0001f;
+              0.0000004f;
       // Given in model units (% of world's min dim) per millisecond-squared.
 
       float const
           VEL_A =
-              0.003f;
+              0.0035f;
       // Specified in radians per millisecond.
     }
   }

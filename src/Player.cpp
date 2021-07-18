@@ -63,7 +63,12 @@ void Player::RunKeyAble()
 
   if (KeyAble::keyState[KEY_FWD])
   {
-    AccTransAble::SetAccByMagAndOri(TRANS_ACC, GetOri());
+    AccTransAble::SetAccByMagAndOri(TRANS_ACC * world->GetDimMin(), GetOri());
+    if (GetSpeed() > MAX_TRANS_SPEED * world->GetDimMin())
+    {
+      SetSpeed(MAX_TRANS_SPEED * world->GetDimMin());
+    }
+    // TODO: This value shouldn't need to be calculated every frame. Store it.
   }
   else
   {
@@ -175,7 +180,6 @@ void Player::RunMouseAble()
 //   pos.x += vel.x * timeChange;
 //   pos.y += vel.y * timeChange;
 // }
-
 
 void Player::RunViewAble()
 {
