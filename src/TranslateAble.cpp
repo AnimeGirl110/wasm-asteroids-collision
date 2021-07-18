@@ -11,13 +11,13 @@ TranslateAble::TranslateAble(Actor *actor, float speed, float traj)
       traj(traj),
       vel(speed * cos(traj), speed * sin(traj))
 {
-  printf("      TranslateAble::TranslateAble()\n");
+  printf("    TranslateAble::TranslateAble()\n");
   // Current TranslateAble version has nothing further to do in construction.
 }
 
 TranslateAble::~TranslateAble()
 {
-  printf("      TranslateAble::~TranslateAble()\n");
+  printf("    TranslateAble::~TranslateAble()\n");
   // Current TranslateAble version has nothing further to do in destruction.
 }
 

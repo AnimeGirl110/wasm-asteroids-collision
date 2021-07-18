@@ -6,7 +6,14 @@ using namespace Game;
 
 // Static variables must be initialized in cpp code outside of hpp declaration.
 std::vector<Actor *> Actor::actors;
+Model *Actor::model = nullptr;
 World *Actor::world = nullptr;
+
+void Actor::SetModel(Model *model)
+{
+  printf("    Actor::SetModel()\n");
+  Actor::model = model;
+}
 
 void Actor::SetWorld(World *world)
 {

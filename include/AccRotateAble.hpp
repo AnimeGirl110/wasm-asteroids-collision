@@ -4,7 +4,7 @@
 namespace Game
 {
   // Component-class for actors capable of being rotationally accelerated.
-  class AccRotateAble : public ModelAble
+  class AccRotateAble : virtual public ModelAble
   {
   public:
     // Constructs an AccRotateAble component.

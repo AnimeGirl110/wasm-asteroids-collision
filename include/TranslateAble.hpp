@@ -24,11 +24,13 @@ namespace Game
     // Change y velocity.
     void ChangeVelY(float dy);
 
-    //
+    // Get speed.
     float GetSpeed() { return speed; }
-    //
+    // Get trajectory.
+    float GetTraj() { return traj; }
+    // Get x-component of velocity.
     float GetVelX() { return vel.x; }
-    //
+    // Get y-component of velocity.
     float GetVelY() { return vel.y; }
 
     // Set Speed.

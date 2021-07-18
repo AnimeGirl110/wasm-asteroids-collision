@@ -23,6 +23,14 @@ View::View(MVC *mvc)
 void View::Finalize()
 {
   printf("\n  View::Finalize()\n");
+  /* Note: A warning may be repeatedly logged to console when finalizing view:
+        Calling stub instead of sigaction()
+     This appears to be caused when SDL makes internal calls to
+     sigaction.  When emscripten is building with ASSERTIONS, it will warn about
+     such calls, because they are (apparently) not supported. This seems to
+     cause no apparently problems, however, so the "Calling stub" warnings can
+     presumably be safely ignored. */
+  printf("    Ignore the following (possible) 'sigaction()' warnings...\n");
   // Destroy the window's rendering context / free associated textures.
   SDL_DestroyRenderer(renderer);
   // Destroy the SDL window.

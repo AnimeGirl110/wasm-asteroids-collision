@@ -5,7 +5,7 @@
 namespace Game
 {
   // Component-class for actors capable of being translationally accelerated.
-  class AccTransAble : public ModelAble
+  class AccTransAble : virtual public ModelAble
   {
   public:
     // Constructs an AccTransAble component.
@@ -13,8 +13,17 @@ namespace Game
     // Destructs an AccTransAble component.
     virtual ~AccTransAble();
 
+    // Get x-component of acceleration
+    float GetAccX() { return acc.x; }
+    // Get y-component of acceleration
+    float GetAccY() { return acc.y; }
+
+    // Set acceleration to zero.
+    void SetAcc();
     // Set acceleration.
-    void SetAcc(float accX, float accY) { acc.x = accX; acc.y = accY; }
+    void SetAcc(float accX, float accY);
+    // Set acceleration by magnitude and orienation.
+    void SetAccByMagAndOri(float mag, float ori);
     // Set x acceleration.
     void SetAccX(float accX) { acc.x = accX; }
     // Set y acceleration.

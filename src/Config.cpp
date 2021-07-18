@@ -75,7 +75,7 @@ namespace Game::Config
     {
       float const
           ASPECT_RATIO =
-              486.0f / 508.0f;
+              50.0f / 50.0f;
       // Aspect ratio is the image's width divided by height.
 
       float const
@@ -85,11 +85,11 @@ namespace Game::Config
 
       char const *
           IMAGE_FILENAME =
-              "images/bullet.png";
+              "images/laser.png";
 
       float const
           TRANS_SPEED =
-              0.05f;
+              0.5f;
       // Given in model units (% of world's min dim) per millisecond.
     }
 
@@ -121,9 +121,13 @@ namespace Game::Config
           KEY_ROTATE_CW =
               SDL_SCANCODE_D;
 
+      Uint8 const
+          KEY_SHOOT =
+              SDL_SCANCODE_SPACE;
+
       float const
           MAX_TRANS_SPEED =
-              0.05f;
+              0.45f;
       // Given in model units (% of world's min dim) per millisecond.
 
       float const
@@ -142,8 +146,13 @@ namespace Game::Config
       // Specified in clockwise-radians off positive x-axis.
 
       float const
+          TRANS_ACC =
+              0.0001f;
+      // Given in model units (% of world's min dim) per millisecond-squared.
+
+      float const
           VEL_A =
-              0.005f;
+              0.003f;
       // Specified in radians per millisecond.
     }
   }

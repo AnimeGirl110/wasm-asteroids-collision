@@ -16,9 +16,14 @@ namespace Game
     Laser(class Player *player);
     // Destructs a laser.
     ~Laser();
-    
+
     // Overrides Actor's Resize() method.
     void Resize() override;
+    // Runs the actor's (multiple) ModelAble components.
+    void RunModelAble() override;
+    // Overrides ViewAble's RunViewAble() method.
+    void RunViewAble() override;
+
 
   private:
     // TODO: Private?

@@ -1,4 +1,5 @@
 #pragma once
+#include "Model.hpp"
 #include "Vec2f.hpp"
 #include <vector>
 #include "World.hpp"
@@ -9,6 +10,8 @@ namespace Game
   class Actor
   {
   public:
+    // Called by Model to specify the model shared by all actors.
+    static void SetModel(Model *model);
     // Called by Model to specify the game world shared by all actors.
     static void SetWorld(World *world);
 
@@ -74,6 +77,8 @@ namespace Game
   protected:
     // Static collection of all actors in the game.
     static std::vector<Actor *> actors;
+    // Static pointer to the model shared by all actors.
+    static Model *model;
     // Static pointer to the game world shared by all actors.
     static World *world;
 

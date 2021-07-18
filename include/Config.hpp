@@ -90,6 +90,9 @@ namespace Game::Config
       // Key to rotate clockwise.
       extern Uint8 const KEY_ROTATE_CW;
 
+      // Key to shoot.
+      extern Uint8 const KEY_SHOOT;
+
       // Maximum translational speed.
       extern float const MAX_TRANS_SPEED;
 
@@ -101,6 +104,9 @@ namespace Game::Config
 
       // Starting orientation.
       extern float const ORI;
+
+      // Translational acceleration.
+      extern float const TRANS_ACC;
 
       // Angular velocity.
       extern float const VEL_A;

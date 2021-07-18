@@ -8,13 +8,13 @@ RotateAble::RotateAble(class Actor *actor, float velA)
     : actor(actor),
       velA(velA)
 {
-  printf("      RotateAble::RotateAble()\n");
+  printf("    RotateAble::RotateAble()\n");
   // Current RotateAble version has nothing further to do during construction.
 }
 
 RotateAble::~RotateAble()
 {
-  printf("      RotateAble::~RotateAble()\n");
+  printf("    RotateAble::~RotateAble()\n");
   // Current RotateAble version has nothing further to do during destruction.
 }
 

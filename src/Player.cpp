@@ -1,7 +1,6 @@
 #include "Config.hpp"
 #include <math.h>
 #include "Player.hpp"
-#include <SDL2/SDL.h>
 #include <stdio.h>
 
 using namespace Game;
@@ -15,7 +14,8 @@ Player::Player()
       TranslateAble(this, 0, 0),
       AccTransAble(this, 0, 0),
       ViewAble(this->Actor::pos, this->Actor::ori, this->Actor::dim,
-               IMAGE_FILENAME)
+               IMAGE_FILENAME),
+      isShooting(false)
 {
   printf("    Player::Player()\n");
   // Current Player version has nothing further to do during construction.
@@ -30,36 +30,63 @@ Player::~Player()
 void Player::Resize()
 {
   printf("    Player::Resize()\n");
-  float dimY = world->GetDimMin() * HEIGHT;
+  float dimMinRatio = world->GetDimMin() / world->GetDimMinPrior();
+  float dimY = GetDimY() * dimMinRatio;
   SetDim(ASPECT_RATIO * dimY, dimY);
   SetPos(GetPosX() * world->GetDimX() / world->GetDimXPrior(),
          GetPosY() * world->GetDimY() / world->GetDimYPrior());
+  SetSpeed(GetSpeed() * dimMinRatio);
+  SetAcc(GetAccX() * dimMinRatio, GetAccY() * dimMinRatio);
+
+  // float dimY = world->GetDimMin() * HEIGHT;
+  // SetDim(ASPECT_RATIO * dimY, dimY);
+  // SetPos(GetPosX() * world->GetDimX() / world->GetDimXPrior(),
+  //        GetPosY() * world->GetDimY() / world->GetDimYPrior());
 }
 
 // TODO: Implement RunKeyAble and RunMouseAble
 
 void Player::RunKeyAble()
 {
-  // controllerRotation = 0;
-  // if (KeyAble::keyState[KEY_ROTATE_CCW])
-  // {
-  //   // rotate counter-clockwise
-  //   --controllerRotation;
-  // }
-  // if (KeyAble::keyState[KEY_ROTATE_CW])
-  // {
-  //   // rotate clockwise
-  //   ++controllerRotation;
-  // }
+  int rotation = 0;
+  if (KeyAble::keyState[KEY_ROTATE_CCW])
+  {
+    // Rotate counter-clockwise.
+    --rotation;
+  }
+  if (KeyAble::keyState[KEY_ROTATE_CW])
+  {
+    // Rotate clockwise.
+    ++rotation;
+  }
+  RotateAble::SetVel(rotation * VEL_A);
 
-  // keyThrust = 0;
-  // if (KeyAble::keyState[KEY_FWD])
-  // {
-  //   // thrust forward
-  //   ++keyThrust;
-  // }
+  if (KeyAble::keyState[KEY_FWD])
+  {
+    AccTransAble::SetAccByMagAndOri(TRANS_ACC, GetOri());
+  }
+  else
+  {
+    AccTransAble::SetAcc();
+  }
 
-  // controllerThrust = (mouseThrust || keyThrust) ? 1 : 0;
+  if (KeyAble::keyState[KEY_SHOOT])
+  {
+    if (!isShooting)
+    {
+      isShooting = true;
+      model->AddLaser();
+    }
+  }
+  else
+  {
+    if (isShooting)
+    {
+      isShooting = false;
+    }
+  }
+
+  // TODO: controllerThrust = (mouseThrust || keyThrust) ? 1 : 0;
 }
 
 void Player::RunModelAble()
@@ -70,7 +97,29 @@ void Player::RunModelAble()
      ambiguous, when Player inherits from both. It thus becomes necessary to
      clarify how RunModelAble() should behave if/when called on Player. */
   RotateAble::RunModelAble();
+  AccTransAble::RunModelAble();
   TranslateAble::RunModelAble();
+  // Detect player moving out of bounds, and wrap around if needed.
+  if (Actor::pos.x > world->GetMaxX() - Actor::dimMax && GetVelX() > 0)
+  {
+    // Player is travelling rightward, so move it to left side.
+    ChangePosX(-world->GetDimX());
+  }
+  if (Actor::pos.x < world->GetMinX() + Actor::dimMax && GetVelX() < 0)
+  {
+    // Player is travelling leftward, so move it to right side.
+    ChangePosX(world->GetDimX());
+  }
+  if (Actor::pos.y > world->GetMaxY() - Actor::dimMax && GetVelY() > 0)
+  {
+    // Player is travelling downward, so move it to top side.
+    ChangePosY(-world->GetDimY());
+  }
+  if (Actor::pos.y < world->GetMinY() + Actor::dimMax && GetVelY() < 0)
+  {
+    // Player is travelling upward, so move it to bottom side.
+    ChangePosY(world->GetDimY());
+  }
 }
 
 void Player::RunMouseAble()
@@ -126,3 +175,60 @@ void Player::RunMouseAble()
 //   pos.x += vel.x * timeChange;
 //   pos.y += vel.y * timeChange;
 // }
+
+
+void Player::RunViewAble()
+{
+  ViewAble::RunViewAble();
+  if (Actor::pos.x > world->GetMaxX() - Actor::dimMax)
+  {
+    // Player is on right side.
+    RunViewAbleAt(Actor::pos.x - world->GetDimX(), Actor::pos.y);
+    if (Actor::pos.y > world->GetMaxY() - Actor::dimMax)
+    {
+      // Player is on lower-right corner.
+      RunViewAbleAt(Actor::pos.x, Actor::pos.y - world->GetDimY());
+      RunViewAbleAt(Actor::pos.x - world->GetDimX(),
+                    Actor::pos.y - world->GetDimY());
+    }
+    else if (Actor::pos.y < world->GetMinY() + Actor::dimMax)
+    {
+      // Player is on upper-right corner.
+      RunViewAbleAt(Actor::pos.x, Actor::pos.y + world->GetDimY());
+      RunViewAbleAt(Actor::pos.x - world->GetDimX(),
+                    Actor::pos.y + world->GetDimY());
+    }
+  }
+  else if (Actor::pos.x < world->GetMinX() + Actor::dimMax)
+  {
+    // Player is on left side.
+    RunViewAbleAt(Actor::pos.x + world->GetDimX(), Actor::pos.y);
+    if (Actor::pos.y > world->GetMaxY() - Actor::dimMax)
+    {
+      // Player is on lower-left corner.
+      RunViewAbleAt(Actor::pos.x, Actor::pos.y - world->GetDimY());
+      RunViewAbleAt(Actor::pos.x + world->GetDimX(),
+                    Actor::pos.y - world->GetDimY());
+    }
+    else if (Actor::pos.y < world->GetMinY() + Actor::dimMax)
+    {
+      // Player is on upper-left corner.
+      RunViewAbleAt(Actor::pos.x, Actor::pos.y + world->GetDimY());
+      RunViewAbleAt(Actor::pos.x + world->GetDimX(),
+                    Actor::pos.y + world->GetDimY());
+    }
+  }
+  else
+  {
+    if (Actor::pos.y > world->GetMaxY() - Actor::dimMax)
+    {
+      // Player is on bottom side.
+      RunViewAbleAt(Actor::pos.x, Actor::pos.y - world->GetDimY());
+    }
+    else if (Actor::pos.y < world->GetMinY() + Actor::dimMax)
+    {
+      // Player is on upper side.
+      RunViewAbleAt(Actor::pos.x, Actor::pos.y + world->GetDimY());
+    }
+  }
+}

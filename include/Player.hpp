@@ -32,8 +32,10 @@ namespace Game
     void RunModelAble() override;
     // Overrides MouseAble's Run method.
     void RunMouseAble() override;
+    // Overrides ViewAble's RunViewAble() method.
+    void RunViewAble() override;
 
   private:
-    // TODO: What privates?
+    bool isShooting;
   };
 }

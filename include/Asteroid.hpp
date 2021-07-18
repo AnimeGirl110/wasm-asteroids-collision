@@ -30,7 +30,7 @@ namespace Game
     void Resize() override;
     // Runs the actor's (multiple) ModelAble components.
     void RunModelAble() override;
-    // Overrides ViewAble's Run() method.
+    // Overrides ViewAble's RunViewAble() method.
     void RunViewAble() override;
 
   private:

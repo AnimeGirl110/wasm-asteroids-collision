@@ -8,13 +8,13 @@ AccRotateAble::AccRotateAble(RotateAble *rotateAble, float acc)
     : rotateAble(rotateAble),
       acc(acc)
 {
-  printf("      AccRotateAble::AccRotateAble()\n");
+  printf("    AccRotateAble::AccRotateAble()\n");
   // Current AccRotateAble version has nothing further to do in construction.
 }
 
 AccRotateAble::~AccRotateAble()
 {
-  printf("      AccRotateAble::~AccRotateAble()\n");
+  printf("    AccRotateAble::~AccRotateAble()\n");
   // Current AccRotateAble version has nothing further to do in destruction.
 }
 

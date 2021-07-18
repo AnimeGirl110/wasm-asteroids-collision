@@ -35,8 +35,6 @@ void Background::Resize()
 {
   printf("    Background::Resize()\n");
   float worldAspectRatio = world->GetDimX() / world->GetDimY();
-  printf("Image Aspect Ratio: %.1f\n", ASPECT_RATIO);
-  printf("World Aspect Ratio: %.1f\n", worldAspectRatio);
   if (worldAspectRatio > ASPECT_RATIO)
   {
     SetSourceRect(0, 0,

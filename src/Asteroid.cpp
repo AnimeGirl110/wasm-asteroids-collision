@@ -1,7 +1,6 @@
 #include "Asteroid.hpp"
 #include "Config.hpp"
 #include "Math.hpp"
-#include <SDL2/SDL.h>
 #include <stdio.h>
 
 using namespace Game;

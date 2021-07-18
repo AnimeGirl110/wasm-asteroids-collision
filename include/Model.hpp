@@ -13,7 +13,11 @@ namespace Game
     Model(class MVC *mvc);
 
     // Add a new laser.
-    void AddLaser(float posX, float posY, float ori);
+    void AddLaser();
+    // Performs actual deletion of any actors marked for deletion.
+    void DeleteActors();
+    // Adds the laser to vector of lasers requiring deletion.
+    void DeleteLaser(class Laser *laser);
     // Called by parent MVC object at end to shut down resources, if any.
     void Finalize();
     // Called by parent MVC object at start to initialize resources, if any.
@@ -24,6 +28,7 @@ namespace Game
     void Run();
 
   private:
+    // Delete
     // Make the game's intial actors.
     void MakeInitialActors();
 
@@ -39,6 +44,8 @@ namespace Game
     bool hasBeenResized;
     // Vector of pointers to all laser actors in the game.
     std::vector<class Laser *> lasers;
+    // Vector of pointers to all laser actors requiring deletion.
+    std::vector<class Laser *> lasersToDelete;
     // Pointer to the model's parent MVC object.
     class MVC *mvc;
     // Pointer to game's player actor.

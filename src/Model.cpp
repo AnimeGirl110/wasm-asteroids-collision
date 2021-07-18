@@ -28,12 +28,35 @@ Model::Model(MVC *mvc)
   // Current version of Model has nothing further to do during construction.
 }
 
-void Model::AddLaser(float posX, float posY, float ori)
+void Model::AddLaser()
 {
-  // TODO
-  (void)posX;
-  (void)posY;
-  (void)ori;
+  printf("\n  + NEW LASER\n");
+  lasers.emplace_back(new Laser(player));
+}
+
+void Model::DeleteActors()
+{
+  for (auto laser : lasersToDelete)
+  {
+    auto it = std::find(lasers.begin(), lasers.end(), laser);
+    if (it != lasers.end())
+    {
+      // This quick deletion trick works so long as the vector isn't "ordered."
+      std::iter_swap(it, lasers.end() - 1);
+      lasers.pop_back();
+      printf("\n  - DELETE LASER\n");
+      delete laser;
+      laser = nullptr;
+    }
+  }
+  lasersToDelete.clear();
+  // TODO: Something is wrong here. Model::DeleteLaser() is repeatedly called.
+}
+
+void Model::DeleteLaser(Laser *laser)
+{
+  printf("    Model::DeleteLaser()\n");
+  lasersToDelete.emplace_back(laser);
 }
 
 void Model::Finalize()
@@ -64,6 +87,24 @@ void Model::Finalize()
     player = nullptr;
   }
 
+  // Delete the asteroids
+  for (auto asteroid : asteroids)
+  {
+    printf("\n  - DELETE ASTEROID\n");
+    delete asteroid;
+    asteroid = nullptr;
+  }
+  asteroids.clear();
+
+  // Delete the lasers
+  for (auto laser : lasers)
+  {
+    printf("\n  - DELETE LASER\n");
+    delete laser;
+    laser = nullptr;
+  }
+  asteroids.clear();
+
   // Delete the world
   if (world)
   {
@@ -71,13 +112,12 @@ void Model::Finalize()
     delete world;
     world = nullptr;
   }
-
-  // TODO: Are the asteroids and lasers to be deleted here????????
 }
 
 bool Model::Initialize()
 {
   printf("  Model::Initialize()\n");
+  Actor::SetModel(this);
   // Current version of Model has nothing further to do during initialization.
   return true;
 }
@@ -150,6 +190,8 @@ void Model::Run()
   }
   // Update modelAbles with the timeChange.
   ModelAble::RunAll(timeChange);
+  // Delete any actors that are to be terminated.
+  DeleteActors();
   // Update timePrior to current time.
   timePrior = SDL_GetTicks();
 }
