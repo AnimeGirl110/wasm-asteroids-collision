@@ -16,6 +16,8 @@ namespace Game
     void AddLaser();
     // Performs actual deletion of any actors marked for deletion.
     void DeleteActors();
+    // Adds the asteroid to vector of asteroids requiring deletion.
+    void DeleteAsteroid(class Asteroid *asteroid);
     // Adds the laser to vector of lasers requiring deletion.
     void DeleteLaser(class Laser *laser);
     // Called by parent MVC object at end to shut down resources, if any.
@@ -32,8 +34,13 @@ namespace Game
     // Make the game's intial actors.
     void MakeInitialActors();
 
+    // checks for and handles collisions between actors
+    void HandleCollisions();
+
     // Vector of pointers to all asteroid actors in the game.
     std::vector<class Asteroid *> asteroids;
+    // Vector of pointers to all asteroids actors requiring deletion.
+    std::vector<class Asteroid *> asteroidsToDelete;
     // Pointer to game's rigid background actor.
     class Background *background;
     // Pointer to game's primary camera.

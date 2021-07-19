@@ -10,6 +10,7 @@ Player::Player()
     : Actor(POS_X, POS_Y, ORI,
             ASPECT_RATIO * HEIGHT * world->GetDimMin(),
             HEIGHT * world->GetDimMin()),
+      CollideAble(this),
       RotateAble(this, 0),
       TranslateAble(this, 0, 0),
       AccTransAble(this, 0, 0),
@@ -33,8 +34,8 @@ void Player::Resize()
   float dimMinRatio = world->GetDimMin() / world->GetDimMinPrior();
   float dimY = GetDimY() * dimMinRatio;
   SetDim(ASPECT_RATIO * dimY, dimY);
-  SetPos(GetPosX() * world->GetDimX() / world->GetDimXPrior(),
-         GetPosY() * world->GetDimY() / world->GetDimYPrior());
+  SetPos(Actor::GetPosX() * world->GetDimX() / world->GetDimXPrior(),
+         Actor::GetPosY() * world->GetDimY() / world->GetDimYPrior());
   SetSpeed(GetSpeed() * dimMinRatio);
   SetAcc(GetAccX() * dimMinRatio, GetAccY() * dimMinRatio);
 

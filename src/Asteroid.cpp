@@ -35,7 +35,7 @@ Asteroid *Asteroid::MakeAsteroid(Asteroid *parent)
   }
   printf("\n  + NEW ASTEROID\n");
   return new Asteroid(
-      parent->GetPosX(), parent->GetPosY(),
+      parent->Actor::GetPosX(), parent->Actor::GetPosY(),
       world->GetDimMin() * HEIGHTS[phaseIndex] *
           GetRandomFloat(1.0f, HEIGHT_RND_FACTOR),
       phaseIndex);
@@ -45,6 +45,7 @@ Asteroid *Asteroid::MakeAsteroid(Asteroid *parent)
 
 Asteroid::Asteroid(float posX, float posY, float dimY, int phaseIndex)
     : Actor(posX, posY, GetRandomFloat(0, PI2), ASPECT_RATIO * dimY, dimY),
+      CollideAble(this),
       RotateAble(this, GetRandomFloat(-MAX_ANGULAR_SPEED, MAX_ANGULAR_SPEED)),
       TranslateAble(
           this,
@@ -70,8 +71,8 @@ void Asteroid::Resize()
   float dimMinRatio = world->GetDimMin() / world->GetDimMinPrior();
   float dimY = GetDimY() * dimMinRatio;
   SetDim(ASPECT_RATIO * dimY, dimY);
-  SetPos(GetPosX() * world->GetDimX() / world->GetDimXPrior(),
-         GetPosY() * world->GetDimY() / world->GetDimYPrior());
+  SetPos(Actor::GetPosX() * world->GetDimX() / world->GetDimXPrior(),
+         Actor::GetPosY() * world->GetDimY() / world->GetDimYPrior());
   SetSpeed(GetSpeed() * dimMinRatio);
 }
 

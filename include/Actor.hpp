@@ -21,11 +21,7 @@ namespace Game
     virtual ~Actor();
 
     // Change x and y dimensions.
-    void ChangeDim(float dx, float dy)
-    {
-      dim.x += dx;
-      dim.y += dy;
-    }
+    void ChangeDim(float dx, float dy);
     // Change x dimension.
     void ChangeDimX(float dx);
     // Change y dimension.
@@ -45,6 +41,8 @@ namespace Game
 
     // Get maximum dimension.
     float GetDimMax() { return dimMax; }
+    // Get minimum dimension.
+    float GetDimMin() { return dimMin; }
     // Get x dimension.
     float GetDimX() { return dim.x; }
     // Get y dimension.
@@ -86,6 +84,8 @@ namespace Game
     Vec2f dim;
     // Maximum dimension
     float dimMax;
+    // Minimum dimension
+    float dimMin;
     // Actor's orientation.
     float ori;
     // Actor's position (x, y).

@@ -7,9 +7,10 @@ using namespace Game;
 using namespace Config::Actor::Laser;
 
 Laser::Laser(Player *player)
-    : Actor(player->GetPosX(), player->GetPosY(), player->GetOri(),
+    : Actor(player->Actor::GetPosX(), player->Actor::GetPosY(), player->GetOri(),
             ASPECT_RATIO * HEIGHT * world->GetDimMin(),
             HEIGHT * world->GetDimMin()),
+      CollideAble(this),
       TranslateAble(this, TRANS_SPEED * world->GetDimMin(), player->GetOri()),
       // TODO: TRANS_SPEED * world->GetDimMin() could be stored for efficiency.
       ViewAble(this->Actor::pos, this->Actor::ori, this->Actor::dim,
@@ -35,8 +36,8 @@ void Laser::Resize()
   float dimMinRatio = world->GetDimMin() / world->GetDimMinPrior();
   float dimY = GetDimY() * dimMinRatio;
   SetDim(ASPECT_RATIO * dimY, dimY);
-  SetPos(GetPosX() * world->GetDimX() / world->GetDimXPrior(),
-         GetPosY() * world->GetDimY() / world->GetDimYPrior());
+  SetPos(Actor::GetPosX() * world->GetDimX() / world->GetDimXPrior(),
+         Actor::GetPosY() * world->GetDimY() / world->GetDimYPrior());
   SetSpeed(GetSpeed() * dimMinRatio);
 
   // float dimY = world->GetDimMin() * HEIGHT;

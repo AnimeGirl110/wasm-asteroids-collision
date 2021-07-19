@@ -44,36 +44,96 @@ Actor::~Actor()
     actors.pop_back();
   }
 }
+void Actor::ChangeDim(float dx, float dy)
+{
+  dim.x += dx;
+  dim.y += dy;
+  if (dim.x > dim.y)
+  {
+    dimMax = dim.x;
+    dimMin = dim.y;
+  }
+  else
+  {
+    dimMax = dim.y;
+    dimMin = dim.x;
+  }
+}
 
 void Actor::ChangeDimX(float dx)
 {
   dim.x += dx;
-  dimMax = std::max(dim.x, dim.y);
+  if (dim.x > dim.y)
+  {
+    dimMax = dim.x;
+    dimMin = dim.y;
+  }
+  else
+  {
+    dimMax = dim.y;
+    dimMin = dim.x;
+  }
 }
 
 void Actor::ChangeDimY(float dy)
 {
   dim.y += dy;
-  dimMax = std::max(dim.x, dim.y);
+  if (dim.x > dim.y)
+  {
+    dimMax = dim.x;
+    dimMin = dim.y;
+  }
+  else
+  {
+    dimMax = dim.y;
+    dimMin = dim.x;
+  }
 }
 
 void Actor::SetDim(float x, float y)
 {
   dim.x = x;
   dim.y = y;
-  dimMax = std::max(dim.x, dim.y);
+  if (dim.x > dim.y)
+  {
+    dimMax = dim.x;
+    dimMin = dim.y;
+  }
+  else
+  {
+    dimMax = dim.y;
+    dimMin = dim.x;
+  }
 }
 
 void Actor::SetDimX(float x)
 {
   dim.x = x;
-  dimMax = std::max(dim.x, dim.y);
+  if (dim.x > dim.y)
+  {
+    dimMax = dim.x;
+    dimMin = dim.y;
+  }
+  else
+  {
+    dimMax = dim.y;
+    dimMin = dim.x;
+  }
 }
 
 void Actor::SetDimY(float y)
 {
   dim.y = y;
-  dimMax = std::max(dim.x, dim.y);
+  if (dim.x > dim.y)
+  {
+    dimMax = dim.x;
+    dimMin = dim.y;
+  }
+  else
+  {
+    dimMax = dim.y;
+    dimMin = dim.x;
+  }
 }
 
 void Actor::SetPos(float x, float y)

@@ -1,5 +1,6 @@
 #pragma once
 #include "Actor.hpp"
+#include "CollideAble.hpp"
 #include "RotateAble.hpp"
 #include "TranslateAble.hpp"
 #include "ViewAble.hpp"
@@ -9,6 +10,7 @@ namespace Game
   // Base class of all asteroids in the game
   class Asteroid
       : public Actor,
+        public CollideAble,
         public RotateAble,
         public TranslateAble,
         public ViewAble

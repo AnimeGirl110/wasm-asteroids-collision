@@ -1,5 +1,6 @@
 #pragma once
 #include "Actor.hpp"
+#include "CollideAble.hpp"
 #include "KeyAble.hpp"
 #include "MouseAble.hpp"
 #include "RotateAble.hpp"
@@ -11,6 +12,7 @@ namespace Game
 {
   class Player
       : public Actor,
+        public CollideAble,
         public KeyAble,
         public MouseAble,
         public RotateAble,

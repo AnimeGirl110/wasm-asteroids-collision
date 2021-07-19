@@ -2,6 +2,7 @@
 #include "Asteroid.hpp"
 #include "Background.hpp"
 #include "Camera.hpp"
+#include "CollideAble.hpp"
 #include "Config.hpp"
 #include "Laser.hpp"
 #include "Model.hpp"
@@ -10,6 +11,7 @@
 #include "Player.hpp"
 #include <stdio.h>
 #include "World.hpp"
+#include <algorithm>
 
 using namespace Game;
 using namespace Config::Model;
@@ -50,7 +52,28 @@ void Model::DeleteActors()
     }
   }
   lasersToDelete.clear();
-  // TODO: Something is wrong here. Model::DeleteLaser() is repeatedly called.
+
+  for (auto asteroid : asteroidsToDelete)
+  {
+    auto it = std::find(asteroids.begin(), asteroids.end(), asteroid);
+    if (it != asteroids.end())
+    {
+      // This quick deletion trick works so long as the vector isn't "ordered."
+      std::iter_swap(it, asteroids.end() - 1);
+      asteroids.pop_back();
+      printf("\n  - DELETE LASER\n");
+      delete asteroid;
+      asteroid = nullptr;
+    }
+  }
+  asteroidsToDelete.clear();
+}
+
+void Model::DeleteAsteroid(Asteroid *asteroid)
+{
+  printf("    Model::DeleteAsteroid()\n");
+  //TODO: delete one and replace with broken (smaller) ones
+  asteroidsToDelete.emplace_back(asteroid);
 }
 
 void Model::DeleteLaser(Laser *laser)
@@ -111,6 +134,21 @@ void Model::Finalize()
     printf("\n  - DELETE WORLD\n");
     delete world;
     world = nullptr;
+  }
+}
+
+void Model::HandleCollisions()
+{
+  for (auto laser : lasers)
+  {
+    for (auto asteroid : asteroids)
+    {
+      if (CollideAble::RunCollideAble(asteroid, laser))
+      {
+        DeleteAsteroid(asteroid);
+        DeleteLaser(laser);
+      }
+    }
   }
 }
 
@@ -190,6 +228,9 @@ void Model::Run()
   }
   // Update modelAbles with the timeChange.
   ModelAble::RunAll(timeChange);
+
+  //TODO check for collisions
+  HandleCollisions();
   // Delete any actors that are to be terminated.
   DeleteActors();
   // Update timePrior to current time.

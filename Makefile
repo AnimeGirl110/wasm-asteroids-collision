@@ -6,7 +6,7 @@ PUB       := public
 SRC       := src
 
 # FILE TYPES
-SOURCE    := $(SRC)/*.cpp
+SOURCE    := $(SRC)/AccRotateAble.cpp $(SRC)/AccTransAble.cpp $(SRC)/Actor.cpp $(SRC)/Asteroid.cpp $(SRC)/Background.cpp $(SRC)/Camera.cpp $(SRC)/CollideAble.cpp $(SRC)/Config.cpp $(SRC)/Controller.cpp $(SRC)/KeyAble.cpp $(SRC)/Laser.cpp $(SRC)/Main.cpp $(SRC)/Math.cpp $(SRC)/Model.cpp $(SRC)/ModelAble.cpp $(SRC)/MouseAble.cpp $(SRC)/MVC.cpp $(SRC)/Player.cpp $(SRC)/RotateAble.cpp $(SRC)/TranslateAble.cpp $(SRC)/Vec2f.cpp $(SRC)/Vec2i.cpp $(SRC)/View.cpp $(SRC)/ViewAble.cpp $(SRC)/World.cpp
 IMAGES    := 'png', 'jpg'
 
 #EXPORTED FUNCTIONS
@@ -14,7 +14,7 @@ FUNCS     := '_resize', '_main'
 EXTRA     := 'cwrap', 'ccall'
 
 # INCLUDED FILES
-EM_       := /home/tym/emsdk/upstream/emscripten
+EM_       := C:/Users/gcyua/OneDrive/Documents/Projects/WebAssemblyProjects/emsdk/upstream/emscripten
 EM_SDL2   := $(EM_)/cache/sysroot/include
 EM_EMSC   := $(EM_)/system/include
 INCLUDE   := -I $(INC) -I $(EM_SDL2) -I $(EM_EMSC)

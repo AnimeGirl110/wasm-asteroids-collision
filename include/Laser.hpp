@@ -1,5 +1,6 @@
 #pragma once
 #include "Actor.hpp"
+#include "CollideAble.hpp"
 #include "TranslateAble.hpp"
 #include "ViewAble.hpp"
 
@@ -8,6 +9,7 @@ namespace Game
   // Base class of all lasers in the game
   class Laser
       : public Actor,
+        public CollideAble,
         public TranslateAble,
         public ViewAble
   {
@@ -23,7 +25,6 @@ namespace Game
     void RunModelAble() override;
     // Overrides ViewAble's RunViewAble() method.
     void RunViewAble() override;
-
 
   private:
     // TODO: Private?
